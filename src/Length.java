@@ -16,7 +16,7 @@ public enum Length{
         return value * toFeetFactor;
     }
 
-    // Convert base unit (FEET) → this unit
+    // Conve.rt base unit (FEET) → this unit
     public double fromBase(double baseValue) {
         return baseValue / toFeetFactor;
     }
