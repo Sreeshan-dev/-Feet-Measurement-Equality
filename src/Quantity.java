@@ -3,26 +3,31 @@ public class Quantity {
     private double value;
     private Unit unit;
 
-    // Conversion factors (to base unit: FEET)
-    private static final double INCH_TO_FEET = 1.0 / 12.0;
-
     public Quantity(double value, Unit unit) {
         this.value = value;
         this.unit = unit;
     }
 
-    // Convert everything to FEET (base unit)
-    private double toBaseUnit() {
-        if (unit == Unit.FEET) {
-            return value;
-        } else if (unit == Unit.INCH) {
-            return value * INCH_TO_FEET;
+    // Convert to another unit
+    public double convertTo(Unit targetUnit) {
+        if (unit == null || targetUnit == null) {
+            throw new IllegalArgumentException("Unit cannot be null");
         }
-        throw new IllegalArgumentException("Unsupported unit");
+
+        if (!Double.isFinite(value)) {
+            throw new IllegalArgumentException("Invalid numeric value");
+        }
+
+        // Step 1: convert to base (feet)
+        double valueInFeet = unit.toFeet(value);
+
+        // Step 2: convert to target
+        return targetUnit.fromFeet(valueInFeet);
     }
 
-    // Equality check after conversion
+    // Equality (same as before)
     public boolean equals(Quantity other) {
-        return Double.compare(this.toBaseUnit(), other.toBaseUnit()) == 0;
+        return Double.compare(this.convertTo(Unit.FEET),
+                other.convertTo(Unit.FEET)) == 0;
     }
 }

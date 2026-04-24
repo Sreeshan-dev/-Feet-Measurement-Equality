@@ -7,29 +7,23 @@ public class QuantityMeasurementApp {
         Scanner scanner = new Scanner(System.in);
 
         try {
-            // Input 1
-            System.out.print("Enter value 1: ");
-            double value1 = scanner.nextDouble();
-            System.out.print("Enter unit 1 (FEET/INCH/YARD/CM): ");
-            Unit unit1 = Unit.valueOf(scanner.next().toUpperCase());
+            System.out.print("Enter value: ");
+            double value = scanner.nextDouble();
 
-            // Input 2
-            System.out.print("Enter value 2: ");
-            double value2 = scanner.nextDouble();
-            System.out.print("Enter unit 2 (FEET/INCH/YARD/CM): ");
-            Unit unit2 = Unit.valueOf(scanner.next().toUpperCase());
+            System.out.print("Enter source unit (FEET/INCH/YARD/CM): ");
+            Unit source = Unit.valueOf(scanner.next().toUpperCase());
 
-            Quantity q1 = new Quantity(value1, unit1);
-            Quantity q2 = new Quantity(value2, unit2);
+            System.out.print("Enter target unit (FEET/INCH/YARD/CM): ");
+            Unit target = Unit.valueOf(scanner.next().toUpperCase());
 
-            if (q1.equals(q2)) {
-                System.out.println("Values are equal.");
-            } else {
-                System.out.println("Values are NOT equal.");
-            }
+            Quantity q = new Quantity(value, source);
+
+            double result = q.convertTo(target);
+
+            System.out.println("Converted Value: " + result + " " + target);
 
         } catch (Exception e) {
-            System.out.println("Invalid input! Use FEET, INCH, YARD, or CM.");
+            System.out.println("Invalid input! Check value and units.");
         } finally {
             scanner.close();
         }
